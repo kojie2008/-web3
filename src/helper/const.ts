@@ -19,7 +19,14 @@ export const ALICE = Keypair.fromSecretKey(
 );
 
 // export const API_ENDPOINT = "https://api.devnet.solana.com";
+// export const API_ENDPOINT_DEVNET = "https://api.devnet.solana.com";
+// export const API_ENDPOINT_TESTNET = "https://api.testnet.solana.com";
+// export const API_ENDPOINT_MAINNET = "https://api.mainnet-beta.solana.com";
+
 export const API_ENDPOINT = "http://localhost:8899";
+export const API_ENDPOINT_DEVNET = "https://nyc55.rpcpool.com";
+export const API_ENDPOINT_TESTNET = "https://nyc54.rpcpool.com";
+export const API_ENDPOINT_MAINNET = "https://lax14.rpcpool.com";
 
 export const CONNECTION = new Connection(API_ENDPOINT);
 

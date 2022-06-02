@@ -1,5 +1,5 @@
 import { Keypair, Transaction, SystemProgram, NONCE_ACCOUNT_LENGTH } from "@solana/web3.js";
-import { CONNECTION, FEE_PAYER } from "../../../helper/const";
+import { CONNECTION, FEE_PAYER } from "../../../../helper/const";
 
 // 創建nonce account
 

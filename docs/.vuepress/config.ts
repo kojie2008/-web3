@@ -3,13 +3,14 @@ import type { DefaultThemeOptions } from "vuepress";
 import * as path from "path";
 
 const absolute_path: string = path.resolve(__dirname, '../../', 'src/example');
+const docTitle: string = "XueWeb3 Example";
 
 export default defineUserConfig<DefaultThemeOptions>({
-  base: "/solana-web3-demo/",
+  base: "/xueweb3/",
   lang: "en-US",
-  title: "Solana Web3 Example",
+  title: docTitle,
   themeConfig: {
-    navbar: [{ text: "GitHub", link: "https://github.com/yihau/solana-web3-demo" }],
+    navbar: [{ text: "GitHub", link: "https://github.com/kojie2008/xueweb3.git" }],
     locales: {
       "/": {
         selectLanguageName: "English",
@@ -77,57 +78,57 @@ export default defineUserConfig<DefaultThemeOptions>({
         selectLanguageName: "中文",
         sidebar: [
           {
-            text: "開始",
+            text: "开始",
             children: ["/zh/README.md"],
           },
           {
-            text: "入門",
+            text: "入门",
             children: [
-              { text: "創建錢包", link: "/zh/tour/create-keypair" },
-              { text: "拿測試幣", link: "/zh/tour/request-airdrop" },
-              { text: "抓取SOL餘額", link: "/zh/tour/get-sol-balance" },
-              { text: "SOL轉帳", link: "/zh/tour/transfer" },
-              { text: "創建代幣", link: "/zh/tour/create-mint" },
-              { text: "抓取代幣資訊", link: "/zh/tour/get-mint" },
-              { text: "創建代幣帳戶", link: "/zh/tour/create-token-account" },
-              { text: "抓取代幣帳戶資訊", link: "/zh/tour/get-token-account" },
-              { text: "增發代幣", link: "/zh/tour/mint-to" },
-              { text: "抓取代幣餘額", link: "/zh/tour/get-token-balance" },
-              { text: "代幣轉帳", link: "/zh/tour/token-transfer" },
+              { text: "创建钱包", link: "/zh/tour/create-keypair" },
+              { text: "空投测试币", link: "/zh/tour/request-airdrop" },
+              { text: "获取SOL余额", link: "/zh/tour/get-sol-balance" },
+              { text: "SOL转账", link: "/zh/tour/transfer" },
+              { text: "创建代币", link: "/zh/tour/create-mint" },
+              { text: "获取代币信息", link: "/zh/tour/get-mint" },
+              { text: "创建代币账户", link: "/zh/tour/create-token-account" },
+              { text: "获取代币账户信息", link: "/zh/tour/get-token-account" },
+              { text: "增发代币", link: "/zh/tour/mint-to" },
+              { text: "获取代币余额", link: "/zh/tour/get-token-balance" },
+              { text: "代币转账", link: "/zh/tour/token-transfer" },
             ],
           },
           {
-            text: "進階",
+            text: "进阶",
             children: [
               {
-                text: "代幣",
+                text: "代币",
                 children: [
                   {
-                    text: "Wrapped SOL",
+                    text: "包装SOL",
                     children: [
-                      { text: "創建帳戶", link: "/zh/advanced/token/wrapped-sol/create-token-account" },
+                      { text: "创建账户", link: "/zh/advanced/token/wrapped-sol/create-token-account" },
                       { text: "增加持有量", link: "/zh/advanced/token/wrapped-sol/add-balance" },
                     ],
                   },
-                  { text: "關閉帳戶", link: "/zh/advanced/token/close-account" },
-                  { text: "設定權限", link: "/zh/advanced/token/set-authority" },
-                  { text: "根據Owner抓取代幣帳戶", link: "/zh/advanced/token/get-all-token-account-by-owner" },
+                  { text: "关闭账户", link: "/zh/advanced/token/close-account" },
+                  { text: "设定权限", link: "/zh/advanced/token/set-authority" },
+                  { text: "根据Owner获取代币账户", link: "/zh/advanced/token/get-all-token-account-by-owner" },
                 ],
               },
               {
-                text: "Metaplex (NFT)",
+                text: "数字藏品(NFT)",
                 children: [
-                  { text: "Token Metadata", link: "/zh/advanced/metaplex/get-tokenmeta" },
-                  { text: "Get NFT", link: "/advanced/metaplex/get-nft" },
-                  { text: "Mint NFT", link: "/advanced/metaplex/mint-nft" },
+                  { text: "代币元数据", link: "/zh/advanced/metaplex/get-tokenmeta" },
+                  { text: "获取NFT", link: "/advanced/metaplex/get-nft" },
+                  { text: "铸币NFT", link: "/advanced/metaplex/mint-nft" },
                 ],
               },
               {
-                text: "Durable Nonce",
+                text: "持久Nonce",
                 link: "/zh/advanced/durable-nonce/README.md",
                 children: [
-                  { text: "創建Nonce帳戶", link: "/zh/advanced/durable-nonce/create-nonce-account" },
-                  { text: "抓取Nonce", link: "/zh/advanced/durable-nonce/query-nonce" },
+                  { text: "创建Nonce账户", link: "/zh/advanced/durable-nonce/create-nonce-account" },
+                  { text: "获取Nonce", link: "/zh/advanced/durable-nonce/query-nonce" },
                   { text: "使用Nonce", link: "/zh/advanced/durable-nonce/use-nonce" },
                 ],
               },
@@ -143,11 +144,11 @@ export default defineUserConfig<DefaultThemeOptions>({
     // As a special case, the default locale can use '/' as its path.
     "/": {
       lang: "en-US",
-      title: "Solana Web3 Example",
+      title: docTitle,
     },
     "/zh/": {
-      lang: "zh-TW",
-      title: "Solana Web3 Example",
+      lang: "zh-CN",
+      title: docTitle,
     },
   },
 
