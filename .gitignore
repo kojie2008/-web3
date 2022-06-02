@@ -1,8 +1,13 @@
-/node_modules
-*.sw[po]
-/.cargo
-/dist
-.env
-src/client/util/store
+node_modules/
+dist/
 test-ledger/
+*.sw[po]
+.env
+/.cargo
 .DS_Store
+
+# vuepress
+docs/.vuepress/.temp/
+docs/.vuepress/.cache/
+docs/.vuepress/dist/
+
