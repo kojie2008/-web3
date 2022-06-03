@@ -29,9 +29,7 @@ export async function getRpcUrl(): Promise<string> {
     if (!config.json_rpc_url) throw new Error('Missing RPC URL');
     return config.json_rpc_url;
   } catch (err) {
-    console.warn(
-      'Failed to read RPC url from CLI config file, falling back to localhost',
-    );
+    console.warn('Failed to read RPC url from CLI config file, falling back to localhost', err);
     return 'http://127.0.0.1:8899';
   }
 }
@@ -45,9 +43,31 @@ export async function getPayer(): Promise<Keypair> {
     if (!config.keypair_path) throw new Error('Missing keypair path');
     return await createKeypairFromFile(config.keypair_path);
   } catch (err) {
-    console.warn(
-      'Failed to create keypair from CLI config file, falling back to new random keypair',
+    console.warn('Failed to create keypair from CLI config file, falling back to new random keypair', err);
+    return Keypair.generate();
+  }
+}
+
+/**
+ * Load and parse the Solana CLI config file to determine which payer to use
+ */
+export async function getPayerByFileName(filename: string): Promise<Keypair> {
+  try {
+    if (!filename) throw new Error('Missing parameter filename');
+    if (!(filename.split('.').slice(-1)[0] == "json")) throw new Error('Filename must end in json');
+
+    const CONFIG_FILE_PATH = path.resolve(
+      os.homedir(),
+      '.config',
+      'solana',
+      filename,
     );
+    const ifexists = await fs.exists(CONFIG_FILE_PATH);
+    if (!ifexists) throw new Error('File ' + CONFIG_FILE_PATH + ' not exists, pls check.');
+
+    return await createKeypairFromFile(CONFIG_FILE_PATH);
+  } catch (err) {
+    console.warn('Failed to load keypair from Given file, falling back to new random keypair', err);
     return Keypair.generate();
   }
 }

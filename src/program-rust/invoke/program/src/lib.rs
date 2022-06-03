@@ -1,7 +1,6 @@
 use solana_program::{
     account_info::next_account_info, account_info::AccountInfo, entrypoint,
-    entrypoint::ProgramResult, msg, program::invoke, program_error::ProgramError, pubkey::Pubkey,
-    system_instruction,
+    entrypoint::ProgramResult, msg, program::invoke, pubkey::Pubkey, system_instruction,
 };
 
 entrypoint!(process_instruction);
@@ -25,6 +24,7 @@ fn process_instruction(
         &system_instruction::transfer(&from_account_info.key, &to_account_info.key, amount),
         &[from_account_info.clone(), to_account_info.clone()],
     )?;
+    msg!("program invoke function");
 
     Ok(())
 }

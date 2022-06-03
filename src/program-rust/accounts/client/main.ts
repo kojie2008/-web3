@@ -11,11 +11,6 @@ const connection = new Connection(API_ENDPOINT);
 //   bs58.decode("588FU4PktJWfGfxtzpAAXywSNt74AvtroVzGfKkVN1LwRuvHwKGr851uH8czM5qm4iqLbs1kKoMKtMJG4ATR7Ld2")
 // );
 
-// G2FAbFQPFa5qKXCetoFZQEvF9BVvCKbvUZvodpVidnoY
-// const alice = Keypair.fromSecretKey(
-//   bs58.decode("4NMwxzmYj2uvHuq8xoqhY8RXg63KSVJM1DXkpbmkUY7YQWuoyQgFnnzn6yo3CMnqZasnNPNuAT2TLwQsCaKkUddp")
-// );
-
 (async () => {
 
   // 支付gas账户要有SOL，如果没有SOL支付gas，则需要提前获取空投SOL，可以通过命令查看账户SOL余额：solana balance 8xJMUWYepTWvwALH7zDfwgxAEiAFQdBdusRagW5HYzB9
