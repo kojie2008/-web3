@@ -7,7 +7,6 @@ const {
 } = require("@solana/web3.js")
 
 const wallet = new Keypair()
-
 const publicKey = new PublicKey(wallet._keypair.publicKey)
 const secretKey = wallet._keypair.secretKey
 
@@ -34,6 +33,7 @@ const airDropSol = async () => {
     }
 }
 
+// Entry Method Main
 const main = async () => {
     await getWalletBalance()
     await airDropSol()

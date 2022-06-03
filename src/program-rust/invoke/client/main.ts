@@ -25,6 +25,8 @@ const connection = new Connection(API_ENDPOINT);
 
   // 使用deploy成功之后，返回的Program Id
   let programId = new PublicKey("25qo1m9R5bzKAQVtjoZrRzVy4hMUxz313DRj8Fn5PRoi");
+  console.log(`programId: ${programId}`);
+
 
   // `invoke` allows us to call another program in our program
 
@@ -32,21 +34,23 @@ const connection = new Connection(API_ENDPOINT);
 
   // here we try to use invoke in our program
   {
+    console.log(`SystemProgram.programId: ${SystemProgram.programId}`);
+
     let ins = new TransactionInstruction({
       programId: programId,
       keys: [
-        {
-          pubkey: alice.publicKey,
-          isSigner: true,
-          isWritable: true,
-        },
         {
           pubkey: feePayer.publicKey,
           isSigner: false,
           isWritable: true,
         },
+        {
+          pubkey: alice.publicKey,
+          isSigner: true,
+          isWritable: true,
+        },
         // remember you also need to pack the invoke instruciton's program here
-        // we want to call system program's transfer in our prgoram
+        // we want to call system program's transfer in our program
         // so we need to pack system program into instruction
         {
           pubkey: SystemProgram.programId,
