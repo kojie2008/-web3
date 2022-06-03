@@ -1,22 +1,12 @@
 import { Connection, Keypair, Transaction, SystemProgram, PublicKey, TransactionInstruction } from "@solana/web3.js";
-import * as bs58 from "bs58";
+import path from 'path';
 import { API_ENDPOINT, API_ENDPOINT_DEVNET } from "../../../helper/const";
-import { getPayer, getRpcUrl, createKeypairFromFile } from '../../../helper/utils';
+import { getPayer, getProgramIdAndSoPath, createKeypairFromFile, getCargoTomlBpfName } from '../../../helper/utils';
 
-// connection
-const connection = new Connection(API_ENDPOINT);
-
-// 5YNmS1R9nNSCDzb5a7mMJ1dwK9uHeAAF4CmPEwKgVWr8
-// const feePayer = Keypair.fromSecretKey(
-//   bs58.decode("588FU4PktJWfGfxtzpAAXywSNt74AvtroVzGfKkVN1LwRuvHwKGr851uH8czM5qm4iqLbs1kKoMKtMJG4ATR7Ld2")
-// );
 
 (async () => {
-
-  // 支付gas账户要有SOL，如果没有SOL支付gas，则需要提前获取空投SOL，可以通过命令查看账户SOL余额：solana balance 8xJMUWYepTWvwALH7zDfwgxAEiAFQdBdusRagW5HYzB9
-  // 可以通过命令获取空投SOL：solana airdrop 8xJMUWYepTWvwALH7zDfwgxAEiAFQdBdusRagW5HYzB9
-  const feePayer = await getPayer();
-  console.log(`feePayer: ${feePayer.publicKey}`);
+  // connection
+  const connection = new Connection(API_ENDPOINT);
 
   /*
   首先，build bpf合约包，命令：cargo build-bpf --bpf-out-dir=dist
@@ -27,8 +17,13 @@ const connection = new Connection(API_ENDPOINT);
   或者部署到指定的公链地址，命令：solana program --url http://localhost:8899 deploy dist/accounts.so
   最后，部署成功之后，会返回Program Id，客户端就是通过该Program Id请求合约的
   */
-  let programId = new PublicKey("5i6duFrs6zWDMRAPj8DayFZ3dRUwGL7mZ2fTNrpmBURr");
-  console.log(`programId: ${programId}`);
+  const programIdAndSo = await getProgramIdAndSoPath(path.resolve(__dirname, '../program'));
+  console.log(`programId: ${programIdAndSo.progranId}`);
+
+  // 支付gas账户要有SOL，如果没有SOL支付gas，则需要提前获取空投SOL，可以通过命令查看账户SOL余额：solana balance 8xJMUWYepTWvwALH7zDfwgxAEiAFQdBdusRagW5HYzB9
+  // 可以通过命令获取空投SOL：solana airdrop 8xJMUWYepTWvwALH7zDfwgxAEiAFQdBdusRagW5HYzB9
+  const feePayer = await getPayer();
+  console.log(`feePayer: ${feePayer.publicKey}`);
 
   // an account meta list is an array and program will receive a same order account info list when loaded.
 
@@ -46,7 +41,7 @@ const connection = new Connection(API_ENDPOINT);
   console.log(`second account: ${secondAccount.publicKey.toBase58()}`);
 
   let ins = new TransactionInstruction({
-    programId: programId,
+    programId: programIdAndSo.progranId,
     keys: [
       {
         pubkey: firstAccount.publicKey,

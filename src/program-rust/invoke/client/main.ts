@@ -1,32 +1,22 @@
 import { Connection, Keypair, Transaction, SystemProgram, PublicKey, TransactionInstruction } from "@solana/web3.js";
-import * as bs58 from "bs58";
+import path from 'path';
 import { API_ENDPOINT, API_ENDPOINT_DEVNET } from "../../../helper/const";
-import { getPayer, getPayerByFileName, getRpcUrl, createKeypairFromFile } from '../../../helper/utils';
+import { getPayer, getPayerByFileName, getProgramIdAndSoPath, createKeypairFromFile } from '../../../helper/utils';
 
-// connection
-const connection = new Connection(API_ENDPOINT);
-
-// 5YNmS1R9nNSCDzb5a7mMJ1dwK9uHeAAF4CmPEwKgVWr8
-// const feePayer = Keypair.fromSecretKey(
-//   bs58.decode("588FU4PktJWfGfxtzpAAXywSNt74AvtroVzGfKkVN1LwRuvHwKGr851uH8czM5qm4iqLbs1kKoMKtMJG4ATR7Ld2")
-// );
-
-// G2FAbFQPFa5qKXCetoFZQEvF9BVvCKbvUZvodpVidnoY
-// const alice = Keypair.fromSecretKey(
-//   bs58.decode("4NMwxzmYj2uvHuq8xoqhY8RXg63KSVJM1DXkpbmkUY7YQWuoyQgFnnzn6yo3CMnqZasnNPNuAT2TLwQsCaKkUddp")
-// );
 
 (async () => {
+  // connection
+  const connection = new Connection(API_ENDPOINT);
+
+  // 使用deploy成功之后，返回的Program Id
+  const programIdAndSo = await getProgramIdAndSoPath(path.resolve(__dirname, '../program'));
+  console.log(`programId: ${programIdAndSo.progranId}`);
+
   const feePayer = await getPayer();
   console.log(`feePayer: ${feePayer.publicKey}`);
 
   const alice = await getPayerByFileName('devnet.json');
   console.log(`alice: ${alice.publicKey}`);
-
-  // 使用deploy成功之后，返回的Program Id
-  let programId = new PublicKey("25qo1m9R5bzKAQVtjoZrRzVy4hMUxz313DRj8Fn5PRoi");
-  console.log(`programId: ${programId}`);
-
 
   // `invoke` allows us to call another program in our program
 
@@ -37,7 +27,7 @@ const connection = new Connection(API_ENDPOINT);
     console.log(`SystemProgram.programId: ${SystemProgram.programId}`);
 
     let ins = new TransactionInstruction({
-      programId: programId,
+      programId: programIdAndSo.progranId,
       keys: [
         {
           pubkey: feePayer.publicKey,

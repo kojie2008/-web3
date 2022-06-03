@@ -12,14 +12,12 @@ import fs from 'mz/fs';
 import path from 'path';
 import * as borsh from 'borsh';
 
-import { getPayer, getRpcUrl, createKeypairFromFile, getCargoTomlBpfName } from '../../../helper/utils';
+import { getPayer, getRpcUrl, createKeypairFromFile, getCargoTomlBpfName, getProgramIdAndSoPath } from '../../../helper/utils';
 
 let connection: Connection;
 let payer: Keypair;
 let programId: PublicKey;
 let greetedPubkey: PublicKey;
-
-const PROGRAM_PATH = path.resolve(__dirname, '../program');
 
 /**
  * The state of a greeting account managed by the hello world program
@@ -97,26 +95,16 @@ async function establishPayer(): Promise<void> {
  */
 async function checkProgram(): Promise<void> {
 
-  const cargoTomlFilePath = path.resolve(PROGRAM_PATH, 'Cargo.toml');
-  const bpfName = await getCargoTomlBpfName(cargoTomlFilePath);
-
-  const PROGRAM_KEYPAIR_PATH = path.resolve(PROGRAM_PATH, `${bpfName}-keypair.json`);
-  const PROGRAM_SO_PATH = path.resolve(PROGRAM_PATH, `${bpfName}.so`);
-
-  // Read program id from keypair file
-  try {
-    const programKeypair = await createKeypairFromFile(PROGRAM_KEYPAIR_PATH);
-    programId = programKeypair.publicKey;
-  } catch (err) {
-    const errMsg = (err as Error).message;
-    throw new Error(`Failed to read program keypair at '${PROGRAM_KEYPAIR_PATH}' due to error: ${errMsg}. Program may need to be deployed with \`solana program deploy program/dist/${bpfName}.so\``,);
-  }
+  const programIdAndSo = await getProgramIdAndSoPath(path.resolve(__dirname, '../program'));
+  console.log(`programId: ${programIdAndSo.progranId}`);
+  // get program id
+  programId = programIdAndSo.progranId;
 
   // Check if the program has been deployed
   const programInfo = await connection.getAccountInfo(programId);
   if (programInfo === null) {
-    if (fs.existsSync(PROGRAM_SO_PATH)) {
-      throw new Error(`Program needs to be deployed with 'solana program deploy program/dist/${bpfName}.so'`);
+    if (fs.existsSync(programIdAndSo.programSoPath)) {
+      throw new Error(`Program needs to be deployed with 'solana program deploy program/dist/${programIdAndSo.bpfName}.so'`);
     } else {
       throw new Error('Program needs to be built and deployed');
     }

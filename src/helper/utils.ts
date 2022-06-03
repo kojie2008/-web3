@@ -138,3 +138,19 @@ export async function getCargoTomlBpfName(filepath: string): Promise<any> {
   throw new Error('Could not find bpf name from toml config file');
 }
 
+export async function getProgramIdAndSoPath(programPath: string): Promise<any> {
+  const bpfName = await getCargoTomlBpfName(path.resolve(programPath, 'Cargo.toml'));
+
+  const programKeypairPath = path.resolve(programPath, 'dist', `${bpfName}-keypair.json`);
+  const programSoPath = path.resolve(programPath, 'dist', `${bpfName}.so`);
+
+  // Read program id from keypair file
+  try {
+    const programKeypair = await createKeypairFromFile(programKeypairPath);
+    return { progranId: programKeypair.publicKey, progranSoPath: programSoPath, bpfName: bpfName };
+  } catch (err) {
+    const errMsg = (err as Error).message;
+    throw new Error(`Failed to read program keypair at '${programKeypairPath}' due to error: ${errMsg}. Program may need to be deployed with \`solana program deploy program/dist/${bpfName}.so\``,);
+  }
+}
+
