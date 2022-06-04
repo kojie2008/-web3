@@ -21,6 +21,9 @@
     "docs:build": "vuepress build docs"
   },
   "dependencies": {
+    "@filecoin-shipyard/lotus-client-provider-nodejs": "^1.1.1",
+    "@filecoin-shipyard/lotus-client-rpc": "^1.2.0",
+    "@filecoin-shipyard/lotus-client-schema": "^4.2.0",
     "@metaplex-foundation/mpl-token-metadata": "^2.1.2",
     "@metaplex/js": "^4.10.1",
     "@solana/spl-token": "^0.2.0",
@@ -32,6 +35,7 @@
     "bs58": "^4.0.1",
     "buffer": "^6.0.3",
     "ed25519-hd-key": "^1.2.0",
+    "ipfs-http-client": "^57.0.1",
     "mz": "^2.7.0",
     "toml": "^3.0.0",
     "tweetnacl": "^1.0.3",
