@@ -1,8 +1,9 @@
 import { Web3Storage } from 'web3.storage'
 import * as Name from 'web3.storage/name'
 import fs from 'fs'
+import path, { dirname } from 'path'
 
-const API_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDkyMDUyQzRBRjc4OGRENDc4ODc5NDBhNGRkZERmNmI1NzkyM2ZkZjciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTQzNDU1NTgzMjAsIm5hbWUiOiJob25neWkifQ.r_VWwWwNnPOv4uXXrFuB6BKvypwrhwPSogQE2Aez1oA"
+let API_TOKEN
 
 async function clientTest() {
     // Construct with token and endpoint
@@ -111,7 +112,18 @@ async function revisionSerDeser() {
     console.log('revision:', revision1)
 }
 
+
+async function getToken() {
+    const filepath = 'D:/workspace/rust/web3/web3storage-token.txt'
+    return await fs.promises.readFile(filepath, { encoding: 'utf8' });
+}
+
+
 async function main() {
+
+    API_TOKEN = await getToken()
+    // console.log(API_TOKEN);
+
     // await clientTest();
 
     // await createAndPublish();

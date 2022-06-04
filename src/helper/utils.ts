@@ -5,6 +5,7 @@ import path from 'path';
 import yaml from 'yaml';
 import toml from 'toml';
 
+
 /**
  * @private
  */
@@ -152,5 +153,15 @@ export async function getProgramIdAndSoPath(programPath: string): Promise<any> {
     const errMsg = (err as Error).message;
     throw new Error(`Failed to read program keypair at '${programKeypairPath}' due to error: ${errMsg}. Program may need to be deployed with \`solana program deploy program/dist/${bpfName}.so\``,);
   }
+}
+
+
+export async function getFileContent(filepath: string): Promise<any> {
+  if (!filepath) throw new Error('Missing parameter filepath');
+
+  const ifexists = await fs.exists(filepath);
+  if (!ifexists) throw new Error('File ' + filepath + ' not exists, pls check.');
+
+  return await fs.readFile(filepath, { encoding: 'utf8' });
 }
 
