@@ -1,17 +1,11 @@
 import { create, globSource, urlSource } from 'ipfs-http-client'
 
-(async () => {
+const HTTP_URL = 'https://dweb.link/api/v0';
+// const HTTP_URL = 'http://127.0.0.1:5002';
 
-  console.log("HI, IPFS.....");
-
-  // await addString();
-  // await addFromGlob();
-  // await addFromUrl();
-
-})();
 
 async function addFromUrl() {
-  const client = create('http://127.0.0.1:5002');
+  const client = create(HTTP_URL);
 
   const file = await client.add(urlSource('https://img.alicdn.com/tfs/TB1R5fsgyDsXe8jSZR0XXXK6FXa-281-80.jpg'))
   console.log(file)
@@ -29,7 +23,7 @@ async function addFromUrl() {
 
 async function addFromGlob() {
 
-  const client = create('http://127.0.0.1:5002');
+  const client = create(HTTP_URL);
 
   for await (const file of client.addAll(globSource('./docs', '**/*'))) {
     console.log(file)
@@ -58,12 +52,12 @@ async function addString() {
   // const client = create();
 
   // 2. connect to a different ipfs daemon API server
-  // const client = create('http://127.0.0.1:5002');
+  // const client = create(HTTP_URL);
 
   // 3. connect using a URL
   // Command: jsipfs config Addresses.API
   // Command: jsipfs config show
-  const client = create(new URL('http://127.0.0.1:5002'));
+  const client = create(new URL(HTTP_URL));
 
   // 4. or connect with multiaddr
   // const client = create('/ip4/127.0.0.1/tcp/5002');
@@ -79,3 +73,29 @@ async function addString() {
   console.log(`${cid}`);
 
 }
+
+
+async function getLinks(ipfsPath) {
+
+  const client = create(HTTP_URL);
+
+  const links = [];
+  for await (const link of client.ls(ipfsPath)) {
+    links.push(link);
+  }
+  console.log(links);
+}
+
+
+(async () => {
+
+  console.log("HI, IPFS.....");
+
+  // await addString();
+  // await addFromGlob();
+  // await addFromUrl();
+
+  const ipfsPath = 'bafybeiafu3y3s6ip3c45zbbd46b6il6jy4k6p5kpvtvkkhuuw5qped7r24'
+  await getLinks(ipfsPath);
+
+})();
